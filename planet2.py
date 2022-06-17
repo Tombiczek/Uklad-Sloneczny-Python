@@ -17,6 +17,7 @@ BROWN_VANILLA = (219, 181, 131)
 LIGHT_BLUE = (173, 216, 230)
 
 FONT = pygame.font.SysFont("comicsans", 16)
+FONT_BIG = pygame.font.SysFont("comicsans", 22)
 
 
 class Planet:
@@ -25,12 +26,13 @@ class Planet:
     SCALE = 10 / AU
     TIMESTEP = 3600 * 24
 
-    def __init__(self, x, y, radius, color, mass):
+    def __init__(self, x, y, radius, color, mass, name):
         self.x = x
         self.y = y
         self.radius = radius
         self.color = color
         self.mass = mass
+        self.name = name
 
         self.orbit = []
         self.sun = False
@@ -58,6 +60,9 @@ class Planet:
         # if not self.sun:
         #     distance_text = FONT.render(f"{round(self.distance_to_sun / 1000, 1)}km", 1, WHITE)
         #     win.blit(distance_text, (x - distance_text.get_width() / 2, y - distance_text.get_height() / 2))
+
+        name_text = FONT_BIG.render(f"{self.name}", 1, WHITE)
+        win.blit(name_text, (x - name_text.get_width() / 2, y - name_text.get_height() / 2))
 
     def attraction(self, other):
         other_x, other_y = other.x, other.y
@@ -96,7 +101,7 @@ def main():
     run = True
     clock = pygame.time.Clock()
 
-    sun = Planet(0, 0, 20, YELLOW, 1.98892 * 10 ** 30)
+    sun = Planet(0, 0, 20, YELLOW, 1.98892 * 10 ** 30, "sun")
     sun.sun = True
 
     # mercury = Planet(0.387 * Planet.AU, 0, 8, DARK_GREY, 3.30 * 10 ** 23)
@@ -113,16 +118,16 @@ def main():
 
     # Aby lepiej zwizualizować wielkości oraz ruch planet po orbice, podzieliliśmy średnicę planet przez 10
 
-    jupiter = Planet(-5.2 * Planet.AU, 0, 17.6, BROWN_VANILLA, 1.898 * 10 ** 27)
+    jupiter = Planet(-5.2 * Planet.AU, 0, 17.6, BROWN_VANILLA, 1.898 * 10 ** 27, "jupiter")
     jupiter.y_vel = 13.06 * 1000
 
-    saturn = Planet(-9.5 * Planet.AU, 0, 1.6*9, BLUE, (5.9742 * 10 ** 24)*95)
+    saturn = Planet(-9.5 * Planet.AU, 0, 1.6*9, BLUE, (5.9742 * 10 ** 24)*95, "saturn")
     saturn.y_vel = 9.68 * 1000
 
-    uran = Planet(-19.2 * Planet.AU, 0, 1.6*4, GREY, (5.9742 * 10 ** 24)*14.5)
+    uran = Planet(-19.2 * Planet.AU, 0, 1.6*4, GREY, (5.9742 * 10 ** 24)*14.5, "uran")
     uran.y_vel = 6.8 * 1000
 
-    neptune = Planet(-30 * Planet.AU, 0, 1.6*4, LIGHT_BLUE, (5.9742 * 10 ** 24)*17)
+    neptune = Planet(-30 * Planet.AU, 0, 1.6*4, LIGHT_BLUE, (5.9742 * 10 ** 24)*17, "neptune")
     neptune.y_vel = 5.4 * 1000
 
     planets = [sun, jupiter, saturn, uran, neptune]

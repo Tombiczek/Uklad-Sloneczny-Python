@@ -15,8 +15,10 @@ DARK_GREY = (80, 78, 81)
 GREY = (150, 150, 150)
 BROWN_VANILLA = (219, 181, 131)
 LIGHT_BLUE = (173, 216, 230)
+ORANGE = (255, 165, 0)
 
 FONT = pygame.font.SysFont("comicsans", 16)
+FONT_BIG = pygame.font.SysFont("comicsans", 22)
 
 
 class Planet:
@@ -25,12 +27,13 @@ class Planet:
     SCALE = 250 / AU
     TIMESTEP = 3600 * 24
 
-    def __init__(self, x, y, radius, color, mass):
+    def __init__(self, x, y, radius, color, mass, name):
         self.x = x
         self.y = y
         self.radius = radius
         self.color = color
         self.mass = mass
+        self.name = name
 
         self.orbit = []
         self.sun = False
@@ -55,11 +58,15 @@ class Planet:
 
         pygame.draw.circle(win, self.color, (x, y), self.radius)
 
-        # Odkomentuj żeby zobaczyć odległości planet od słońca
+        # Odkomentuj żeby zobaczyć odległości planet od słońca albo nazwy planet
 
         # if not self.sun:
         #     distance_text = FONT.render(f"{round(self.distance_to_sun / 1000, 1)}km", 1, WHITE)
         #     win.blit(distance_text, (x - distance_text.get_width() / 2, y - distance_text.get_height() / 2))
+
+        # Nazwy planet
+        name_text = FONT_BIG.render(f"{self.name}", 1, WHITE)
+        win.blit(name_text, (x - name_text.get_width() / 2, y - name_text.get_height() / 2))
 
     def attraction(self, other):
         other_x, other_y = other.x, other.y
@@ -98,19 +105,19 @@ def main():
     run = True
     clock = pygame.time.Clock()
 
-    sun = Planet(0, 0, 30, YELLOW, 1.98892 * 10 ** 30)
+    sun = Planet(0, 0, 30, YELLOW, 1.98892 * 10 ** 30, "sun")
     sun.sun = True
 
-    mercury = Planet(0.387 * Planet.AU, 0, 8, DARK_GREY, 3.30 * 10 ** 23)
+    mercury = Planet(0.387 * Planet.AU, 0, 8, DARK_GREY, 3.30 * 10 ** 23, "mercury")
     mercury.y_vel = -47.4 * 1000
 
-    venus = Planet(0.723 * Planet.AU, 0, 14, WHITE, 4.8685 * 10 ** 24)
+    venus = Planet(0.723 * Planet.AU, 0, 14, ORANGE, 4.8685 * 10 ** 24, "venus")
     venus.y_vel = -35.02 * 1000
 
-    earth = Planet(-1 * Planet.AU, 0, 16, BLUE, 5.9742 * 10 ** 24)
+    earth = Planet(-1 * Planet.AU, 0, 16, BLUE, 5.9742 * 10 ** 24, "earth")
     earth.y_vel = 29.783 * 1000
 
-    mars = Planet(-1.524 * Planet.AU, 0, 12, RED, 6.39 * 10 ** 23)
+    mars = Planet(-1.524 * Planet.AU, 0, 12, RED, 6.39 * 10 ** 23, "mars")
     mars.y_vel = 24.077 * 1000
 
     # Reszta planet jest w pliku planet2
